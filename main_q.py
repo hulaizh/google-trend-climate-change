@@ -18,10 +18,10 @@ kw_lists = [r"/m/0d063v"]
 end_year = 2021
 timeframelist = []
 for year in range(2004,end_year+1):
-    for month in range(1,13):
-        lastday = calendar.monthrange(year,month)[1]
+    for month in range(1, 13,3):
+        lastday = calendar.monthrange(year,month+2)[1]
         beg = datetime(year,month,1).strftime("%Y-%m-%d")
-        end = datetime(year,month,lastday).strftime("%Y-%m-%d")
+        end = datetime(year,month+2,lastday).strftime("%Y-%m-%d")
         timeframelist.append("{0} {1}".format(beg,end))
 
 # download google trends by country, by month
@@ -34,4 +34,4 @@ for timeframe in tqdm(timeframelist):
 df = pd.concat(dflist,axis=1)
 
 # output
-df.reset_index().to_csv("./ClimateChange_m.csv",index=False,encoding='utf8')
+df.reset_index().to_csv("./ClimateChange_q.csv",index=False,encoding='utf8')

@@ -165,3 +165,8 @@ dmypy.json
 *.mtc1
 *.out
 *.synctex.gz
+
+# Data files
+*.csv
+*.xlsx
+*.dta
