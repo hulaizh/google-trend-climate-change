@@ -14,8 +14,7 @@ df
 # topic for climate change
 kw_lists = [r"/m/0d063v"]
 
-# parse.unquote("%2Fm%2F0cs9q")
-
+# months
 end_year = 2022
 timeframelist = []
 for year in range(2004,end_year+1):
@@ -34,7 +33,5 @@ for timeframe in tqdm(timeframelist):
     dflist.append(tmpdf)
 df = pd.concat(dflist,axis=1)
 
-# for tmpdf,timeframe in zip(dflist,timeframelist):
-#     tmpdf.columns = [timeframe[:7]]
-
+# output
 df.reset_index().to_csv("./ClimateChange.csv",index=False,encoding='utf8')
