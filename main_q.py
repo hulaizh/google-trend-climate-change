@@ -24,7 +24,8 @@ for year in range(2004,end_year+1):
         end = datetime(year,month+2,lastday).strftime("%Y-%m-%d")
         timeframelist.append("{0} {1}".format(beg,end))
 
-# download google trends by country, by month
+# download google trends by country, over quarter
+# SVI scaled each quarter
 dflist = []
 for timeframe in tqdm(timeframelist):
     pytrend.build_payload(kw_list=[kw_lists[0]],timeframe=timeframe,geo="",gprop="")
@@ -35,3 +36,4 @@ df = pd.concat(dflist,axis=1)
 
 # output
 df.reset_index().to_csv("./ClimateChange_q.csv",index=False,encoding='utf8')
+
