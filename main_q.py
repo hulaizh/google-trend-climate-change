@@ -3,10 +3,11 @@ from pytrends.request import TrendReq
 import pandas as pd
 from datetime import datetime
 import calendar
+from time import sleep
 from tqdm import tqdm
 
 # get the topic code for climate change
-pytrend = TrendReq(hl='en-US', tz=360)
+pytrend = TrendReq(hl='en-US', tz=360, retries=10, backoff_factor=0.5)
 keywords = pytrend.suggestions(keyword='Climate Change')
 df = pd.DataFrame(keywords)
 df
@@ -15,7 +16,7 @@ df
 kw_lists = [r"/m/0d063v"]
 
 # months
-end_year = 2021
+end_year = 2023
 timeframelist = []
 for year in range(2004,end_year+1):
     for month in range(1, 13,3):
@@ -32,6 +33,7 @@ for timeframe in tqdm(timeframelist):
     tmpdf = pytrend.interest_by_region()
     tmpdf.columns = [timeframe[:4]+timeframe[5:7]]
     dflist.append(tmpdf)
+    sleep(3)
 df = pd.concat(dflist,axis=1)
 
 # output

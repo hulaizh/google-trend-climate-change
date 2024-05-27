@@ -7,7 +7,7 @@ from time import sleep
 from tqdm import tqdm
 
 # get the topic code for climate change
-pytrend = TrendReq(hl='en-US', tz=360)
+pytrend = TrendReq(hl='en-US', tz=360, retries=10, backoff_factor=0.5)
 keywords = pytrend.suggestions(keyword='Climate Change')
 df = pd.DataFrame(keywords)
 df
@@ -16,7 +16,7 @@ df
 kw_lists = [r"/m/0d063v"]
 
 # months
-end_year = 2021
+end_year = 2023
 timeframelist = []
 for year in range(2004,end_year+1):
     for month in range(1,13):
@@ -37,18 +37,18 @@ df = pd.concat(dflist,axis=1)
 
 # download google trends by month, over 27 countries
 # SVI scaled each country
-geo = ['AT','AU','BE','CA','CL','CN','DE','DK','EG','ES','FI','FR','GB','GR','HK','IL','IN','IT','JP','KR','NL','NZ','PL','SE','SG','US','ZA']
-dflist = []
-for country in geo:
-    pytrend.build_payload(kw_list=[kw_lists[0]],timeframe='2004-01-01 2021-12-31',geo=country,gprop="")
-    tmpdf = pytrend.interest_over_time()
-    tmpdf.drop(columns=['isPartial'], inplace=True)
-    tmpdf.rename(columns={'/m/0d063v':country}, inplace=True)
-    dflist.append(tmpdf)
-    sleep(3)
-df_country = pd.concat(dflist,axis=1)
+# geo = ['AT','AU','BE','CA','CL','CN','DE','DK','EG','ES','FI','FR','GB','GR','HK','IL','IN','IT','JP','KR','NL','NZ','PL','SE','SG','US','ZA']
+# dflist = []
+# for country in geo:
+#     pytrend.build_payload(kw_list=[kw_lists[0]],timeframe='2004-01-01 2021-12-31',geo=country,gprop="")
+#     tmpdf = pytrend.interest_over_time()
+#     tmpdf.drop(columns=['isPartial'], inplace=True)
+#     tmpdf.rename(columns={'/m/0d063v':country}, inplace=True)
+#     dflist.append(tmpdf)
+#     sleep(3)
+# df_country = pd.concat(dflist,axis=1)
 
 # output
 df.reset_index().to_csv("./ClimateChange_m.csv",index=False,encoding='utf8')
 
-df_country.reset_index().to_csv("./ClimateChangeCountry_m.csv",index=False,encoding='utf8')
+# df_country.reset_index().to_csv("./ClimateChangeCountry_m.csv",index=False,encoding='utf8')
